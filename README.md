@@ -10,7 +10,7 @@ SonarQube - Included in tutorial for mac users
 
 Jenkins - Included in tutorial for mac users
 
-
+Maven
 
 
 ## Getting Started
