@@ -304,7 +304,7 @@ pipeline {
 }
 ```
 
-Commit and push your changes and try and run the our build on Jenkins again. If successful you should be able to visit your local sonarqube host and see that a new project is showing with some possible issues.
+Commit and push your changes and try and run the build on Jenkins again. If successful you should be able to visit your local sonarqube host and see that a new project is showing with some possible issues.
 
 Navigate to the bug clicking on `the project name -> the number of bugs -> the clickable red dscription of the bug`.
 
