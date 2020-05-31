@@ -6,17 +6,9 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
         stage('Sonarscan') {
-            steps{
-                scannerHome = tool 'SonarScanner'
-                withSonarQubeEnv('SonarQube') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
+            withSonarQubeEnv('SonarQube') {
+                sh "mvn clean package sonar:sonar"
             }
         }
     }
