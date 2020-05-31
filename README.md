@@ -39,7 +39,7 @@ At first I tried creating a quick guide for starting up Jenkins with docker here
 
 After successfully followed the instructions provided by documentation we should see three containers up and running using the `docker ps` command. Looking something like this:
 
-![Three containers up and running](Containers_Running.jpg)
+![Three containers up and running](https://github.com/Paul-Philip/devops-tutorial/blob/master/Containers_Running.JPG)
 
 It might take a while until the jenkins server is up and running. You should however be able to visit http://localhost:8080/ and see your jenkins application when it is ready.
 
