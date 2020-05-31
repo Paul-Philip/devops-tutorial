@@ -235,7 +235,7 @@ We'll be doing so by forking this repository and adding a new Jenkinsfile to it 
 
 At the top of this page you can fork this repository:
 
-![Fork here](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/fork_here.jpg)
+![Fork here](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/fork_here.JPG)
 
 ### Create your own Jenkinsfile
 
@@ -314,7 +314,7 @@ Navigate to the bug clicking on `the project name -> the number of bugs -> the c
 
 Sonarqube now shows you what exactly is the issue and where in the code. You can further dig deeper into how it could possibly be solved by clicking the `see rule` box. In this case I chose quite a simple bug which also already has a functioning code repair tool for it. Should look something like this:
 
-![Sonarqube error](pics/Sonar_bug.jpg)
+![Sonarqube error](pics/Sonar_bug.JPG)
 
 ## Time for some Automated Code Repair!
 
