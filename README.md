@@ -240,11 +240,7 @@ At the top of this page you can fork this repository:
 ### Create your own Jenkinsfile
 
 Your jenkinsfile will tell Jenkins how to build your code in the given folder.
-Go to the root of the repository and create the file:
-
-```shell
-touch Jenkinsfile
-```
+Go to the root of the repository and create a file named: ```Jenkinsfile```
 
 Now open the Jenkinsfile and add the following:
 
