@@ -104,6 +104,7 @@ We'll now configure jenkins so that we can create a build which runs a sonarqube
   * Set `Kind` to `secret text` and add the paste the copied token into the `secret` input field. 
   * Add any name and description of your liking.
 
+When ever we make any configuration changes we should make a habit out of going to `/restart` to make sure all our changes have been made to the jenkins server.
 
 ## Cleaning up after us
 
