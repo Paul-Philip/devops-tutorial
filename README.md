@@ -250,19 +250,18 @@ Now open the Jenkinsfile and add the following:
 
 ```json
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
-    stages {
-        stage('Test Maven') {
-            sh 'mvn -version'
-            }
-        }
-    }
-}
+  agent {
+      docker {
+          image 'maven:3-alpine'
+          args '-v /root/.m2:/root/.m2'
+      }
+  }
+  stages {
+      stage('Test Maven') {
+          sh 'mvn -version'
+          }
+      }
+  }
 ```
 
 To begin with, we'll check if our maven used with docker is working, this you can see in the `stages -> stage -> sh 'mvn -version'` section.
