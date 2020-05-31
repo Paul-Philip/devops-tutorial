@@ -312,7 +312,26 @@ If successful you should be able to visit your local sonarqube host and see that
 
 Navigate to the bug clicking on `the project name -> the number of bugs -> the clickable red dscription of the bug`.
 
-Sonarqube now shows you what is the issues with the code that was provided in the repository 
+Sonarqube now shows you what exactly is the issue and where in the code. You can further dig deeper into how it could possibly be solved by clicking the `see rule` box. In this case I chose quite a simple bug which also already has a functioning code repair tool for it. Should look something like this:
+
+![Sonarqube error](pics/Sonar_bug.jpg)
+
+## Time for some Automated Code Repair!
+
+We'll be using a tool called repairnator which enables the user to choose from a variaty of modules conducting repair on your code.
+
+### Add repairnator as a plugin to your jenkins
+
+1. Go to `Manage Jenkins -> Manage Plugins`
+2. Click on the `Advanced`-tab.
+3. Choose upload file and find the .hpi file in the root of this repository. (Extra credit to the team behind with [link to the tool](https://github.com/eclipse/repairnator/blob/master/doc/repairnator-jenkins-plugin.md) and possible updated version.)
+4. Tick the box for restarting Jenkins and wait until it's all finished.
+
+### Configure your pipeline job adding a repairnator job
+
+Now the idea behind the repairnator is to scan through your code for possible bugs and solutions to these and then creating a PR to your Github repository with the suggested solution to the bug.
+
+1. 
 
 ## Cleaning up after us
 
@@ -334,6 +353,11 @@ docker volumes prune  -- removes all volumes not used by at least one container.
 docker network prune  -- removes all networks not used by at least one container.
 ```
 
+## Credits
+
+* [Repairnator plugin](https://github.com/eclipse/repairnator/blob/master/doc/repairnator-jenkins-plugin.md) - The team behind creating the repairnator and the plugin for jenkins
+
+* [SonarQube repair](https://github.com/SpoonLabs/sonarqube-repair) - The specific repair tool used in this tutorial
 
 ## Links to relevant tools and research in the field
 
