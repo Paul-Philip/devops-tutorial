@@ -4,11 +4,11 @@ In this tutorial you will add an automated repair tool to your jenkins pipeline.
 
 ## What you'll learn?
 
-- You will learn some basic Docker scripting
-- You will learn how to setup your own basic Jenkins
-- You will learn how to add your own Static Analysis Tool to your Jenkins pipeline. SonarQube in this case.
-- You will learn some basic Jenkins scripting
-- You will learn how to skip the scripting by not inventing the wheel and just add a plugin some one already developed for you to use.
+- You will learn some basic Docker scripting.
+- You will learn how to setup your own basic Jenkins.
+- You will learn how to add Static Analysis Tool to your Jenkins pipeline. SonarQube in this case.
+- You will learn how you can use some basic bash scripts to run things in your jenkins pipeline.
+- You will learn how to skip the scripting by not re-inventing the wheel and just add a plugin someone already developed for you to use.
 
 ## Prerequisites
 
@@ -46,81 +46,63 @@ docker ps
 
 You should be able to go to http://localhost:9000/ and see your sonarqube instance.
 
-In my case running on an old mac(read: "very old") I had to visit http://192.168.99.100:9000/ since the legacy Docker Toolbox runs with Virtual Machine which uses this ip-adress. If you have similar issues not finding it on http://localhost:9000/ this might be the issue, or you just have to wait a bit longer while the application is booting up on docker.
+If you have issues reaching the application it is either still being started or you might be using a quite old computer or setup with docker.
+In my case hitting the wall when trying it out on an old mac(read: "very old"). I had to visit http://192.168.99.100:9000/ since the legacy **Docker Toolbox** runs with VirtualBox which used this ip-adress.
 
-### Start Jenkins
+### Start up Jenkins
 
-1. Create a network for our jenkins application
-```shell
-docker network create jenkins
-```
+At first I tried creating a quick guide for starting up Jenkins with docker here myself. However, after struggeling with this, I realized it would just be as good giving a link to their own description so you can adapt the method based on which OS you are using.
 
-2. Setup a storage for our jenkins, called volumes in docker
-```shell
-docker volume create jenkins-docker-certs
-docker volume create jenkins-data
-```
+[Installing Jenkins](https://www.jenkins.io/doc/book/installing/) - Follow the instructions on this link.
 
-3. To be able to run docker commands inside of our jenkins we need to start a docker container with the  image called docker:dind
-```shell
-docker container run --name jenkins-docker -d \
-  --privileged --network jenkins --network-alias docker \
-  --env DOCKER_TLS_CERTDIR=/certs \
-  --volume jenkins-docker-certs:/certs/client \
-  --volume jenkins-data:/var/jenkins_home \
-  -p 2376:2376 docker:dind
-```
+After successfully followed the instructions provided by documentation we should see three containers up and running using the `docker ps` command. Looking something like this:
 
-There are a couple of new commands:
+![Three containers up and running](Containers_Running.png)
 
-* --privileged   -  is required for running the docker in docker image.
-* --env  -  Enables the use of TLS on the docker server
-* --network, --network-alias  -  connects to the previously created network and exposes the container on the network with the name 'docker'
-* --volume   -  maps the /certs/client and the /var/jenkins_home to the volumes created earlier.
+It might take a while until the jenkins server is up and running. You should however be able to visit http://localhost:8080/ and see your jenkins application when it is ready.
 
-4. Download and run Jenkinsci
-
-```shell
-docker container run --name jenkins -d \
-  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
-  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
-  --volume jenkins-data:/var/jenkins_home \
-  --volume jenkins-docker-certs:/certs/client:ro \
-  -p 8080:8080 -p 50000:50000 jenkinsci/blueocean
-```
-
-docker container run --name jenkins -d \
-  --network jenkins -p 8080:8080 -p 50000:50000 jenkinsci/blueocean
-
-
-* --env  -  In this case sets up our jenkins to connect to our previously created docker environment
-
-Now we should see our three containers up and running using the `docker ps`.
-
-It might take a while until the jenkins server is up and running. You could go grab a coffee or something in the meantime. After a while you should be able to go to http://localhost:8080/ and see your jenkins application running.
-
-### Configure Jenkins
-
-### Unlocking Jenkins and create admin user
-
-Jenkins now tells us to find our password in the folder `/var/jenkins_home/secrets/initialAdminPassword` to unlock it. Either we could connect Jenkins container and navigate to the folder and use `cat` print the we need, or we could check the logs of the jenkins container using:
+Jenkins now tells us to find our password in the file `/var/jenkins_home/secrets/initialAdminPassword` to unlock it. Either we could run a bash command towards the Jenkins container using the `exec` keyword or we could check the logs of the jenkins container:
 
 ```
-docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+docker exec jenkins-blueocean cat var/jenkins_home/secrets/initialAdminPassword
 ```
 
 ```
 docker logs jenkins
 ```
 
-You should now see the line `Please use the following password to proceed to installation:` followed by the password we need to unlock Jenkins.
+1. Use the password to unlock the Jenkins application
+2. follow the installation guide, installing the suggested plugins
+3. Create a new admin account, e.g. using `user: admin`, `pwd: admin` and some dummy email.
 
-Moving on you can choose to use the default plugins for Jenkins which gives us some good basic plugins. When that is done you can create your new admin user. For this tutorial you can just use: `user: admin`, `pwd: admin` and some dummy email.
+Congratulations! You now got the basic parts of our CI pipeline needed for completing the good stuff of this tutorial!
 
+### Configure Jenkins
 
+We'll now configure jenkins so that we can create a build which runs a sonarqube scan on our files.
 
+#### Install SonarQube scanner plugin
 
-Congratulations you now have the necessary basic parts of a CI pipeline needed for doing the 'real part' of this tutorial!
+1. Click `Manage Jenkins`->`Manage Plugins`->`Available`
+2. Search for `Sonarqube scanner`
+3. Tick the box for the tool and then click the `Install without restarting`
+4. On the next screen tick the box for restarting the Jenkins when the installation is done and no jobs are running.
+
+#### Configure the SonarQube scanner 
+
+1. When the system has rebooted go back to `Manage Jenkins` again
+2. This time click the `Configure (System)`
+3. Scroll down to the SonarQube Servers section and click the `Add SonarQube`
+4. Here you can specify your SonarQube server, in our case the URL is the same as the default one however you might be having something else, let's just put in a name: `SonarQube` and the URL: `http://localhost:9000/` (Which ever you're using)
+5. Generate token for Sonarqube
+  * [Go to your SonarQube instance](http://localhost:9000/) - localhost:9000
+  * Now login to the SonarQube if you haven't using `username: admin` and `pwd: admin`
+  * Click on the user icon at the top right corner and click `my account`
+  * Click `Security` -> fill in the Token name: `My-SonarQube-Tutorial-Token` -> `copy` the generated token.
+6. Add the token to our Jenkins
+  * Back in Jenkins click the Add-button next to the "Server Authentication Token"
+  * Set `Kind` to `secret text` and add the paste the copied token into the `secret` input field. 
+  * Add any name and description of your liking.
 
 
 ## Cleaning up after us
