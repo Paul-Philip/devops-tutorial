@@ -9,7 +9,7 @@ pipeline {
         stage('Sonarscan') {
             steps{
                 withSonarQubeEnv('SonarQube') {
-                    sh "mvn clean package sonar:sonar -Dsonar.host.url=http://sonarqube:9000 "
+                    sh "mvn clean package sonar:sonar"
                 }
             }
         }
