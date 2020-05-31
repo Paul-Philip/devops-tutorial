@@ -14,7 +14,7 @@ In this tutorial you will learn how to add an automated repair tool to your Jenk
 You will setup parts of a ci/cd pipeline containing jenkins and sonarqube
 using docker. This will be connected to a github repository and you will add a plugin which runs automated code repair on the code.
 
-![What you'll do](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/Tutorial-setup.jpg)
+![What you'll do](pics/Tutorial-setup.jpg)
 
 ## Prerequisites
 
@@ -194,7 +194,7 @@ In my case hitting the wall when trying it out on an old mac(read: "very old"). 
 
 After successfully following the start up guides we should see three containers up and running using the `docker ps` command. Looking something like this:
 
-![Three containers up and running](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/Containers_Running.JPG)
+![Three containers up and running](pics/Containers_Running.JPG)
 
 ### Configure Jenkins
 
@@ -235,7 +235,7 @@ We'll be doing so by forking this repository and adding a new Jenkinsfile to it 
 
 At the top of this page you can fork this repository and then do a `git clone` to your local machine:
 
-![Fork here](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/fork_here.JPG)
+![Fork here](pics/fork_here.JPG)
 
 ### Create your own Jenkinsfile
 
@@ -304,7 +304,7 @@ pipeline {
 }
 ```
 
-If successful you should be able to visit your local sonarqube host and see that a new project is showing with some possible issues.
+Commit and push your changes and try and run the our build on Jenkins again. If successful you should be able to visit your local sonarqube host and see that a new project is showing with some possible issues.
 
 Navigate to the bug clicking on `the project name -> the number of bugs -> the clickable red dscription of the bug`.
 
