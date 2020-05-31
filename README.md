@@ -31,24 +31,6 @@ docker ps       // List our containers
 docker stop <my_container>      // Stop any container using their name
 ```
 
-### Start up SonarQube
-
-```shell
-docker run -d --name sonarqube -p 9000:9000 sonarqube:lts
-```
-
-The 'docker run' command starts up an application in a container. The -d flag stands for detach which makes the container run in the background. At the end we define which Image we want to use, in this case "sonarqube:lts". If there is no image present locally matching this name, docker will try and pull it from dockerhub.
-
-Let's check that our container is up and running now
-```shell
-docker ps
-```
-
-You should be able to go to http://localhost:9000/ and see your sonarqube instance.
-
-If you have issues reaching the application it is either still being started or you might be using a quite old computer or setup with docker.
-In my case hitting the wall when trying it out on an old mac(read: "very old"). I had to visit http://192.168.99.100:9000/ since the legacy **Docker Toolbox** runs with VirtualBox which used this ip-adress.
-
 ### Start up Jenkins
 
 At first I tried creating a quick guide for starting up Jenkins with docker here myself. However, after struggeling with this, I realized it would just be as good giving a link to their own description so you can adapt the method based on which OS you are using.
@@ -57,7 +39,7 @@ At first I tried creating a quick guide for starting up Jenkins with docker here
 
 After successfully followed the instructions provided by documentation we should see three containers up and running using the `docker ps` command. Looking something like this:
 
-![Three containers up and running](Containers_Running.png)
+![Three containers up and running](Containers_Running.jpg)
 
 It might take a while until the jenkins server is up and running. You should however be able to visit http://localhost:8080/ and see your jenkins application when it is ready.
 
@@ -75,7 +57,25 @@ docker logs jenkins
 2. follow the installation guide, installing the suggested plugins
 3. Create a new admin account, e.g. using `user: admin`, `pwd: admin` and some dummy email.
 
-Congratulations! You now got the basic parts of our CI pipeline needed for completing the good stuff of this tutorial!
+### Start up SonarQube
+
+Assuming you've followed the guide for starting up Jenkins you should have a network called `jenkins` which we will connect our SonarQube application to-
+
+```shell
+docker run -d --name sonarqube -p 9000:9000 sonarqube:lts --network jenkins
+```
+
+The 'docker run' command starts up an application in a container. The -d flag stands for detach which makes the container run in the background. At the end we define which Image we want to use, in this case "sonarqube:lts". If there is no image present locally matching this name, docker will try and pull it from dockerhub.
+
+Let's check that our container is up and running now
+```shell
+docker ps
+```
+
+You should be able to go to http://localhost:9000/ and see your sonarqube instance.
+
+If you have issues reaching the application it is either still being started or you might be using a quite old computer or setup with docker.
+In my case hitting the wall when trying it out on an old mac(read: "very old"). I had to visit http://192.168.99.100:9000/ since the legacy **Docker Toolbox** runs with VirtualBox which used this ip-adress.
 
 ### Configure Jenkins
 
@@ -93,18 +93,22 @@ We'll now configure jenkins so that we can create a build which runs a sonarqube
 1. When the system has rebooted go back to `Manage Jenkins` again
 2. This time click the `Configure (System)`
 3. Scroll down to the SonarQube Servers section and click the `Add SonarQube`
-4. Here you can specify your SonarQube server adress, name and auth-token, in our case running on docker the URL should be `http://sonarqube:9000/`
-5. Generate token for Sonarqube
+4. Here you can specify your SonarQube server adress, name and auth-token
+5. In our case running sonarqube on the same docker network as our jenkins we can use the command `docker inspect sonarqube` and in this json structure find the Networks->Jenkins->IpAddress and put it in the URL, in my case it was: `http://172.18.0.4:9000/`
+6. Generate token for Sonarqube
   * [Go to your SonarQube instance](http://localhost:9000/) - localhost:9000
-  * Now login to the SonarQube if you haven't using `username: admin` and `pwd: admin`
+  * Now login to the SonarQube using `username: admin` and `pwd: admin`
   * Click on the user icon at the top right corner and click `my account`
   * Click `Security` -> fill in the Token name: `My-SonarQube-Tutorial-Token` -> `copy` the generated token.
-6. Add the token to our Jenkins
+7. Add the token to our Jenkins
   * Back in Jenkins click the Add-button next to the "Server Authentication Token"
   * Set `Kind` to `secret text` and add the paste the copied token into the `secret` input field. 
   * Add any name and description of your liking.
 
 When ever we make any configuration changes we should make a habit out of going to `/restart` to make sure all our changes have been made to the jenkins server.
+
+
+
 
 ## Cleaning up after us
 
@@ -125,49 +129,6 @@ docker image prune -a  -- removes all images that are not used by any existing c
 docker volumes prune  -- removes all volumes not used by at least one container.
 docker network prune  -- removes all networks not used by at least one container.
 ```
-
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 
 ## Links to relevant tools and research in the field
