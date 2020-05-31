@@ -85,7 +85,7 @@ docker container run --name jenkins-docker --rm --detach \
 4. Finally we'll download and run the jenkins application
 
 ```shell
-docker container run --name jenkins --rm --detach \
+docker container run --name jenkinsci --rm --detach \
   --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
   --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
   --volume jenkins-data:/var/jenkins_home \ 
@@ -142,7 +142,7 @@ docker container run --name jenkins-docker --rm --detach ^
 4. Finally we'll download and run the jenkins application
 
 ```shell
-docker container run --name jenkins-tutorial --rm --detach ^
+docker container run --name jenkinsci --rm --detach ^
   --network jenkins --env DOCKER_HOST=tcp://docker:2376 ^
   --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 ^
   --volume jenkins-data:/var/jenkins_home ^
@@ -161,15 +161,15 @@ It might take a while until the jenkins server is up and running. You should how
 Jenkins now tells us to find our password in the file `/var/jenkins_home/secrets/initialAdminPassword` to unlock it. Either we could use the `exec` command which lets us use any shell command towards a container we would like. We could also check the logs of the jenkins container:
 
 ```
-docker exec jenkins-blueocean cat var/jenkins_home/secrets/initialAdminPassword
+docker exec jenkinsci cat var/jenkins_home/secrets/initialAdminPassword
 ```
 
 ```
-docker logs jenkins
+docker logs jenkinsci
 ```
 
 1. Use the password to unlock the Jenkins application
-2. follow the installation guide, installing the suggested plugins
+2. Follow the installation guide and install the suggested plugins
 3. Create a new admin account, e.g. using `user: admin`, `pwd: admin` and some dummy email.
 
 ### Start up SonarQube
@@ -284,7 +284,29 @@ Now you should `git add .`, `git commit -a -m "Added first Jenkinsfile"` and `gi
 You've now initialized your build and can see the console output from the pipeline.
 If successful we can carry on, otherwise something is incorrectly configured and you'll have to revisit previous steps, google similar issuer or contact me.
 
+### Now we'll run a build testing that our sonar setup is working
 
+Edit the Jenkinsfile and make the following changes:
+
+```
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
+    stages {
+        stage('Sonarscan') {
+            steps{
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean package sonar:sonar"
+                }
+            }
+        }
+    }
+}
+```
 
 ## Cleaning up after us
 
