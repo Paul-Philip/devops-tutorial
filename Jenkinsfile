@@ -13,5 +13,12 @@ pipeline {
                 }
             }
         }
+        stage('Repair') {
+            steps{
+                withRepairnator() {
+                    sh "ls"
+                }
+            }
+        }
     }
 }
