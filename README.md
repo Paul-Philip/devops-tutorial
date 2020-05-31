@@ -233,7 +233,7 @@ We'll be doing so by forking this repository and adding a new Jenkinsfile to it 
 
 ### Fork this repository
 
-At the top of this page you can fork this repository:
+At the top of this page you can fork this repository and then do a `git clone` to your local machine:
 
 ![Fork here](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/fork_here.JPG)
 

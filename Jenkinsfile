@@ -6,9 +6,11 @@ pipeline {
         }
     }
     stages {
-        stage('Test Maven') {
-            steps ('Check maven version') {
-                sh 'mvn -version'
+        stage('Sonarscan') {
+            steps{
+                withSonarQubeEnv('SonarQube') {
+                    sh "mvn clean package sonar:sonar"
+                }
             }
         }
     }
