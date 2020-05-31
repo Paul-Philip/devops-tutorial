@@ -93,7 +93,7 @@ We'll now configure jenkins so that we can create a build which runs a sonarqube
 1. When the system has rebooted go back to `Manage Jenkins` again
 2. This time click the `Configure (System)`
 3. Scroll down to the SonarQube Servers section and click the `Add SonarQube`
-4. Here you can specify your SonarQube server, in our case the URL is the same as the default one however you might be having something else, let's just put in a name: `SonarQube` and the URL: `http://localhost:9000/` (Which ever you're using)
+4. Here you can specify your SonarQube server adress, name and auth-token, in our case running on docker the URL should be `http://sonarqube:9000/`
 5. Generate token for Sonarqube
   * [Go to your SonarQube instance](http://localhost:9000/) - localhost:9000
   * Now login to the SonarQube if you haven't using `username: admin` and `pwd: admin`
