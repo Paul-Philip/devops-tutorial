@@ -177,7 +177,7 @@ docker logs jenkinsci
 Assuming you've followed the guide for starting up Jenkins you should have a network called `jenkins` which we will connect our SonarQube application to:
 
 ```shell
-docker run -d --name sonarqube -p 9000:9000 sonarqube:lts --network jenkins
+docker run -d --name sonarqube --network jenkins -p 9000:9000 sonarqube:lts 
 ```
 
 <details>
