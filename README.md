@@ -266,8 +266,25 @@ pipeline {
 }
 ```
 
-To begin with, we'll check if our maven used with docker is working, this you can see in the `stages -> stage -> sh 'mvn -version'` section.
+To begin with, we'll check if our maven used with docker is working, this you can see in the `stages -> stage -> steps -> sh 'mvn -version'` section.
 The agent part of the json file defines the node which will run the commands, here being a docker container running the image maven:3-alpine.
+
+Now you should `git add .`, `git commit -a -m "Added first Jenkinsfile"` and `git push` your changes.
+
+### Create your build on Jenkins
+
+1. Back to jenkins `"add new item" -> Enter an item name -> choose Pipeline -> click OK at the bottom`.
+
+2. Scroll down to pipeline and change the definition to: `Pipeline script from SCM`, choose `GIT` as your SCM, put the url to your forked repository and save.
+
+3. On the left hand side you should now see and click `start build now`.
+
+4. Refresh the page and you'll see a blinking dot with `#1` on the left hand-side under `Build History`, click on the number and then click Console Output.
+
+You've now initialized your build and can see the console output from the pipeline.
+If successful we can carry on, otherwise something is incorrectly configured and you'll have to revisit previous steps, google similar issuer or contact me.
+
+
 
 ## Cleaning up after us
 
