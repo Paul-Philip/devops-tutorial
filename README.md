@@ -329,9 +329,15 @@ We'll be using a tool called repairnator which enables the user to choose from a
 
 ### Configure your pipeline job adding a repairnator job
 
-Now the idea behind the repairnator is to scan through your code for possible bugs and solutions to these and then creating a PR to your Github repository with the suggested solution to the bug.
+Now the idea behind the repairnator is to scan through your code for possible bugs and solutions to these and then create a PR to your Github repository with the suggested solution to the bug.
 
-1. 
+1. Firstly, go back to jenkins main screen and create a new item, now using the `freestyle project` module.
+2. In here you can add the URL to your repository if you click the `Git` radio button under version management.
+3. Click the `Add post-build action`, and choose `run repairnator` from the given list.
+4. Now you will have to generate a GitOAuthToken if you do not have one. You can go to [this link](https://github.com/settings/tokens), press `generate new token` and tick the "public_repo" box.
+5. Now you can choose which repairtools to run, and if you want to get a Pull Request with the repairs you can click the `advanced`-button and fill in the GitUrl and Branch. If this doesn't work you might have to add the plugin `github pull request builder`.
+
+**There we have it! You've added an automated repair tool to your Jenkins Pipeline!**
 
 ## Cleaning up after us
 
@@ -356,8 +362,6 @@ docker network prune  -- removes all networks not used by at least one container
 ## Credits
 
 * [Repairnator plugin](https://github.com/eclipse/repairnator/blob/master/doc/repairnator-jenkins-plugin.md) - The team behind creating the repairnator and the plugin for jenkins
-
-* [SonarQube repair](https://github.com/SpoonLabs/sonarqube-repair) - The specific repair tool used in this tutorial
 
 ## Links to relevant tools and research in the field
 
