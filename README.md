@@ -2,19 +2,35 @@
 
 In this tutorial you will learn how to add an automated repair tool to your Jenkins Pipeline. Don't have a Pipeline yet? Don't worry we'll go through every step to set you up.
 
-## What you'll learn?
+## Background
 
-- You will learn some basic Docker scripting.
-- You will learn how to setup your basic Jenkins using docker.
-- You will learn how to add plugins to your Jenkins pipeline. SonarQube and Repairnator in this case.
-- You will learn some pipeline building using jenkinsfiles in your code repository.
+Let's first take a moment to look into the different tools we will be using in this tutorial.
 
-## Outline
+### Outline
 
 You will setup parts of a ci/cd pipeline containing jenkins and sonarqube
 using docker. This will be connected to a github repository and you will add a plugin which runs automated code repair on the code.
 
 ![What you'll do](pics/Tutorial-setup.jpg)
+
+### Docker
+
+Docker is a tool that makes the whole process of getting your application out there easier. I helps you all the steps, creating, deploying and running the applications. This is done by using containers, containers makes it possible for the developers to put everything that is needed to run your application in one simple package.
+
+### Jenkins
+
+Jenkins is a a tool making it easy to set up a CI/CD, continoues integration or continoues delivery pipeline for almost all languages out there. It fetches your code from version control, builds it, packages it, and pushes it to the next application in line which can deploy it.
+
+### Sonarqube
+
+Sonarqube is a static code analysis tool, it contains a set of predefined rules which are usually checked during the build time of the application. It gives feedback to the developer by presenting the possible bugs in their code and also showing some generic solutions to the known issue.
+
+## So what will you learn?
+
+- You will learn some basic Docker scripting.
+- You will learn how to setup your basic Jenkins using docker.
+- You will learn how to add plugins to your Jenkins pipeline. SonarQube and Repairnator in this case.
+- You will learn some pipeline building using jenkinsfiles in your code repository.
 
 ## Prerequisites
 
