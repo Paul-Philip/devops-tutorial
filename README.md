@@ -5,10 +5,16 @@ In this tutorial you will add an automated repair tool to your jenkins pipeline.
 ## What you'll learn?
 
 - You will learn some basic Docker scripting.
-- You will learn how to setup your own basic Jenkins.
-- You will learn how to add Static Analysis Tool to your Jenkins pipeline. SonarQube in this case.
+- You will learn how to setup your own basic Jenkins with a pipeline.
+- You will learn how to add plugins to your Jenkins pipeline. SonarQube and Repairnator in this case.
 - You will learn how you can use some basic bash scripts to run things in your jenkins pipeline.
-- You will learn how to skip the scripting by not re-inventing the wheel and just add a plugin someone already developed for you to use.
+
+## What you'll do
+
+You will setup parts of a ci/cd pipeline containing jenkins and sonarqube
+using docker and connecting it to a github repository and running automated code repair on it.
+
+![What you'll do](https://github.com/Paul-Philip/devops-tutorial/blob/master/Tutorial-setup.jpg)
 
 ## Prerequisites
 
@@ -24,20 +30,22 @@ Assuming you've installed Docker let's move on to getting our jenkins with sonar
 
 ### Tidy up our Docker environment
 
-If you've got a docker environment with some containers already running you should either stop your current containers or make sure that the ports are not colliding during this tutorial.
+If you already got a docker installation with some containers already running you should either stop your current containers or make sure that the ports are not colliding throughout this tutorial.
 
 ```shell
 docker ps       // List our containers
 docker stop <my_container>      // Stop any container using their name
+docket rm <my_container>        // Removes the container
 ```
 
 ### Start up Jenkins
 
-At first I tried creating a quick guide for starting up Jenkins with docker here myself. However, after struggeling with this, I realized it would just be as good giving a link to their own description so you can adapt the method based on which OS you are using.
+At first I tried creating a quick guide for starting up Jenkins with docker here myself. However, after struggeling with this (a lot), I realized it would just be as good giving a link to their own description so you can adapt the method based on which OS you are using. (Also, the instructions on the main page for installing Jenkins on Docker failed on two different OS's for me. However, the link provided below did the work.)
 
-[Installing Jenkins](https://www.jenkins.io/doc/book/installing/) - Follow the instructions on this link.
+* [Installing Jenkins on macOS and Linux](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/#on-macos-and-linux)
+* [Installing Jenkins on Windows](https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/#on-windows)
 
-After successfully followed the instructions provided by documentation we should see three containers up and running using the `docker ps` command. Looking something like this:
+After successfully following the instructions provided by documentation we should see three containers up and running using the `docker ps` command. Looking something like this:
 
 ![Three containers up and running](https://github.com/Paul-Philip/devops-tutorial/blob/master/Containers_Running.JPG)
 
