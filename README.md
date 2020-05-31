@@ -237,8 +237,36 @@ At the top of this page you can fork this repository:
 
 ![Fork here](https://github.com/Paul-Philip/devops-tutorial/blob/master/pics/fork_here.jpg)
 
-### Create your own Jenkinsfile in the root folder
+### Create your own Jenkinsfile
 
+Your jenkinsfile will tell Jenkins how to build your code in the given folder.
+Go to the root of the repository and create the file:
+
+```shell
+touch Jenkinsfile
+```
+
+Now open the Jenkinsfile and add the following:
+
+```json
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
+    }
+    stages {
+        stage('Test Maven') {
+            sh 'mvn -version'
+            }
+        }
+    }
+}
+```
+
+To begin with, we'll check if our maven used with docker is working, this you can see in the `stages -> stage -> sh 'mvn -version'` section.
+The agent part of the json file defines the node which will run the commands, here being a docker container running the image maven:3-alpine.
 
 ## Cleaning up after us
 
