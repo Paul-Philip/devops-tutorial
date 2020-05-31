@@ -308,6 +308,12 @@ pipeline {
 }
 ```
 
+If successful you should be able to visit your local sonarqube host and see that a new project is showing with some possible issues.
+
+Navigate to the bug clicking on `the project name -> the number of bugs -> the clickable red dscription of the bug`.
+
+Sonarqube now shows you what is the issues with the code that was provided in the repository 
+
 ## Cleaning up after us
 
 Stop our container:
