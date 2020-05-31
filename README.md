@@ -12,7 +12,7 @@ In this tutorial you will add an automated repair tool to your jenkins pipeline.
 ## What you'll do
 
 You will setup parts of a ci/cd pipeline containing jenkins and sonarqube
-using docker and connecting it to a github repository and adding a plugin which runs automated code repair on your code.
+using docker. This will be connected to a github repository and you will add a plugin which runs automated code repair on the code.
 
 ![What you'll do](https://github.com/Paul-Philip/devops-tutorial/blob/master/Tutorial-setup.jpg)
 
